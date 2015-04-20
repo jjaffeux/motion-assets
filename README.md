@@ -7,45 +7,45 @@ motion-assets allows RubyMotion projects to use ImageMagick to generate all the 
 
 You need to have ImageMagick installed: 
 
-    ```
-    $ brew install imagemagick
-    ```
+```
+$ brew install imagemagick
+```
 
 And the gem installed: 
 
-    ```
-    $ [sudo] gem install motion-assets
-    ```
+```
+$ [sudo] gem install motion-assets
+```
 
 Or if you use Bundler:
 
-    ```ruby
-    gem 'motion-assets'
-    ```
+```ruby
+gem 'motion-assets'
+```
 
 
 ## Setup
 
 In the `Rakefile`, set the path your base image :
 
-   ```ruby
-   Motion::Project::App.setup do |app|
-      # ...
-      app.assets.base_icon = "./src_images/icon-1024x1024.png"
-   end
-   ```
+```ruby
+Motion::Project::App.setup do |app|
+  # ...
+  app.assets.base_icon = "./src_images/icon-1024x1024.png"
+end
+```
 
 ## Configuration
 
 You can add or remove icons :
 
-    ```ruby
-    Motion::Project::App.setup do |app|
-      # ...
-      app.assets.icons << 'CustomSize.png|32x32'
-      app.assets.icons.delete('Icon-60@2x.png|120x120')
-    end
-    ```
+```ruby
+Motion::Project::App.setup do |app|
+  # ...
+  app.assets.icons << 'CustomSize.png|32x32'
+  app.assets.icons.delete('Icon-60@2x.png|120x120')
+end
+```
 
 ## Tasks
 
