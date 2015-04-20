@@ -1,0 +1,6 @@
+.*.sw?
+pkg
+tmp
+*.gem
+build
+resources
