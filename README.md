@@ -31,7 +31,7 @@ In the `Rakefile`, set the path your base image :
 ```ruby
 Motion::Project::App.setup do |app|
   # ...
-  app.assets.base_icon = "./src_images/icon-1024x1024.png"
+  app.assets.source_icon = "./src_images/icon-1024x1024.png"
 end
 ```
 

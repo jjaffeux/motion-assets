@@ -53,15 +53,15 @@ module Motion::Project
       else
         @icons << ANDROID_ICONS
       end
-      @base_icon = "./src_images/base_icon.png"
+      @source_icon = "./src_images/icon.png"
     end
 
     def add_icon(icon_name)
       @config.icons << icon_name
     end
 
-    def base_icon=(base_icon)
-      @base_icon = base_icon
+    def source_icon=(source_icon)
+      @source_icon = source_icon
     end
 
     def icons
@@ -69,13 +69,13 @@ module Motion::Project
     end
 
     def generate!
-      unless File.exist?(@base_icon)
-        App.fail "You have to provide a valid base icon in your rakefile : app.assets.base_icon = './some/path/image.png"
+      unless File.exist?(@source_icon)
+        App.fail "You have to provide a valid base icon in your rakefile : app.assets.source_icon = './some/path/image.png"
       end
 
       @icons.each do |icon|
         parts = icon.split('|')
-        image = MiniMagick::Image.open(@base_icon)
+        image = MiniMagick::Image.open(@source_icon)
         image.resize(parts[1])
         image.format("png")
         destination = File.join(@config.resources_dirs.first, parts[0])
