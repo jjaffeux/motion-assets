@@ -22,6 +22,7 @@ class Icons
     end
     self
   end
+  alias_method :push, :<<
 
   def delete(*icons)
     @list.delete(icons)
