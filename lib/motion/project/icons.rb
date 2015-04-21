@@ -1,13 +1,9 @@
 class Icons
   include Enumerable
 
-  def initialize(assets_delegate)
+  def initialize(config)
     @list = []
-    @assets_delegate = assets_delegate
-  end
-
-  def names
-    @list.map {|icon| icon.split('|').first}
+    @config = config
   end
 
   def list
@@ -18,7 +14,7 @@ class Icons
     @list << icons
     @list.flatten!
     icons.flatten.each do |icon|
-      @assets_delegate.add_icon(icon.split('|').first)
+      @config.icons << icon.split('|').first
     end
     self
   end
@@ -28,7 +24,7 @@ class Icons
     @list.delete(icons)
     @list.flatten!
     icons.flatten.each do |icon|
-      @assets_delegate.delete_icon(icon.split('|').first)
+      @config.icons.delete icon.split('|').first
     end
     self
   end

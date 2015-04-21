@@ -75,7 +75,9 @@ module Motion::Project
 
     def initialize(config)
       @config = config
-      @icons = Icons.new(self)
+      @images = []
+      @icons = Icons.new(config)
+      @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
       if ios?
         @icons << IOS_ICONS
@@ -87,14 +89,6 @@ module Motion::Project
       end
       @source_icon = "./src_images/icon.png"
       @source_splash = "./src_images/splash.png"
-    end
-
-    def add_icon(icon_name)
-      @config.icons << icon_name
-    end
-
-    def delete_icon(icon_name)
-      @config.icons.delete(icon_name)
     end
 
     def source_icon=(source_icon)
@@ -123,6 +117,7 @@ module Motion::Project
         path = File.join(@config.resources_dirs.first, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         generate_image(@source_icon, path, parts[1])
+        @images << path
         App.info "-", parts[0]
       end
 
@@ -132,11 +127,23 @@ module Motion::Project
         path = File.join(@config.resources_dirs.first, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         generate_image(@source_splash, path, parts[1])
+        @images << path
         App.info "-", parts[0]
       end
+
+      optimize_images
     end
 
     protected
+
+    def optimize_images
+      if File.exist?(@image_optim)
+        App.info "[info]", "Optimizing images..."
+        system("#{@image_optim} #{@images.join(' ')}")
+      else
+        App.info "[warning]", "motion-assets uses ImageOptim to optimize your images, please install it : https://imageoptim.com"
+      end
+    end
 
     def generate_image(source, path, dimensions)
       image = MiniMagick::Image.open(source)
