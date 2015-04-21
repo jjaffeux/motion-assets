@@ -8,12 +8,14 @@ module Motion::Project
   class Config
     variable :assets
 
-    def assets(&block)
+    def assets
       @assets ||= Motion::Project::Assets.new(self)
-      if block
-        @assets.instance_eval(&block)
-      end
+      VARS << 'generated_icons' unless VARS.include?('generated_icons')
       @assets
+    end
+
+    def generated_icons
+      @assets.icons.list
     end
   end
 
@@ -45,12 +47,17 @@ module Motion::Project
 
     def initialize(config)
       @config = config
+      @icons = Icons.new(self)
       if Motion::Project::App.template != :android
-        @icons = IOS_ICONS
+        @icons << IOS_ICONS
       else
-        @icons = ANDROID_ICONS
+        @icons << ANDROID_ICONS
       end
       @base_icon = "./src_images/base_icon.png"
+    end
+
+    def add_icon(icon_name)
+      @config.icons << icon_name
     end
 
     def base_icon=(base_icon)
