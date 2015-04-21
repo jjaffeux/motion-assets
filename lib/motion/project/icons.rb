@@ -17,7 +17,7 @@ class Icons
   def <<(*icons)
     @list << icons
     @list.flatten!
-    @list.each do |icon|
+    icons.flatten.each do |icon|
       @assets_delegate.add_icon(icon.split('|').first)
     end
     self
