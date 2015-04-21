@@ -163,11 +163,8 @@ module Motion::Project
         App.fail "You have to provide a valid base splash in your rakefile : app.assets.source_splash = './some/path/image.png"
       end
       image = MiniMagick::Image.open(@source_splash)
-      if ios? && image.dimensions != [1024, 1024]
-        App.info "[warning]", "Your source splash image dimensions #{image.dimensions} is different from recommended dimensions : [1024, 1024]"
-      end
-      if android? && image.dimensions != [512, 512]
-        App.info "[warning]", "Your source splash image dimensions #{image.dimensions} is different from recommended dimensions : [512, 512]"
+      if image.dimensions != [2028, 2028]
+        App.info "[warning]", "Your source splash image dimensions #{image.dimensions} is different from recommended dimensions : [2028, 2028]"
       end
     end
 
