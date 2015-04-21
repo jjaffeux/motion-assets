@@ -10,16 +10,6 @@ module Motion::Project
 
     def assets
       @assets ||= Motion::Project::Assets.new(self)
-      VARS << 'generated_icons' unless VARS.include?('generated_icons')
-      @assets
-    end
-
-    def generated_icons
-      @assets.icons.list
-    end
-
-    def generated_splashes
-      @assets.splashes
     end
   end
 
