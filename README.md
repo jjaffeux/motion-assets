@@ -1,3 +1,6 @@
+/!\ Alpha code will break a lot in the coming week
+
+
 # motion-assets
 
 motion-assets allows RubyMotion projects to use ImageMagick to generate all the icons sizes.
