@@ -110,17 +110,14 @@ module Motion::Project
     def generate!
       validate_source_icon!
       validate_source_splash!
+      generate_icons
+      generate_splashes
+      optimize_images
+    end
 
-      App.info "[info]", "Generating icons..."
-      @icons.each do |icon|
-        parts = icon.split('|')
-        path = File.join(@config.resources_dirs.first, parts[0])
-        FileUtils.mkdir_p(File.dirname(path))
-        generate_image(@source_icon, path, parts[1])
-        @images << path
-        App.info "-", parts[0]
-      end
+    protected
 
+    def generate_splashes
       App.info "[info]", "Generating splashes..."
       @splashes.each do |splash|
         parts = splash.split('|')
@@ -130,11 +127,19 @@ module Motion::Project
         @images << path
         App.info "-", parts[0]
       end
-
-      optimize_images
     end
 
-    protected
+    def generate_icons
+      App.info "[info]", "Generating icons..."
+      @icons.each do |icon|
+        parts = icon.split('|')
+        path = File.join(@config.resources_dirs.first, parts[0])
+        FileUtils.mkdir_p(File.dirname(path))
+        generate_image(@source_icon, path, parts[1])
+        @images << path
+        App.info "-", parts[0]
+      end
+    end
 
     def optimize_images
       if File.exist?(@image_optim)
