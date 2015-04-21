@@ -60,6 +60,10 @@ module Motion::Project
       @config.icons << icon_name
     end
 
+    def delete_icon(icon_name)
+      @config.icons.delete(icon_name)
+    end
+
     def source_icon=(source_icon)
       @source_icon = source_icon
     end

@@ -23,6 +23,15 @@ class Icons
     self
   end
 
+  def delete(*icons)
+    @list.delete(icons)
+    @list.flatten!
+    icons.flatten.each do |icon|
+      @assets_delegate.delete_icon(icon.split('|').first)
+    end
+    self
+  end
+
   def each(&block)
     @list.each(&block)
   end
