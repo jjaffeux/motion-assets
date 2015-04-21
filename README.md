@@ -28,12 +28,13 @@ Optional, you can install ImageOption to optimize your images : https://imageopt
 
 ## Setup
 
-In the `Rakefile`, set the path your base image :
+In the `Rakefile`, set paths for your base images :
 
 ```ruby
 Motion::Project::App.setup do |app|
   # ...
   app.assets.source_icon = "./src_images/icon-1024x1024.png"
+  app.assets.source_splash = "./src_images/splash-1024x1024.png"
 end
 ```
 
