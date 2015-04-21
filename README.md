@@ -23,6 +23,8 @@ Or if you use Bundler:
 gem 'motion-assets'
 ```
 
+Optional, you can install ImageOption to optimize your images : https://imageoptim.com
+
 
 ## Setup
 
