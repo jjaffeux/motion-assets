@@ -48,9 +48,10 @@ module Motion::Project
     def initialize(config)
       @config = config
       @icons = Icons.new(self)
-      if Motion::Project::App.template != :android
+      if ios?
         @icons << IOS_ICONS
-      else
+      end
+      if android?
         @icons << ANDROID_ICONS
       end
       @source_icon = "./src_images/icon.png"
@@ -73,9 +74,7 @@ module Motion::Project
     end
 
     def generate!
-      unless File.exist?(@source_icon)
-        App.fail "You have to provide a valid base icon in your rakefile : app.assets.source_icon = './some/path/image.png"
-      end
+      validate_source_icon!
 
       @icons.each do |icon|
         parts = icon.split('|')
@@ -86,6 +85,30 @@ module Motion::Project
         FileUtils.mkdir_p(File.dirname(destination))
         image.write(destination)
       end
+    end
+
+    protected
+
+    def validate_source_icon!
+      unless File.exist?(@source_icon)
+        App.fail "You have to provide a valid base icon in your rakefile : app.assets.source_icon = './some/path/image.png"
+      end
+
+      image = MiniMagick::Image.open(@source_icon)
+      if ios? && image.dimensions != [1024, 1024]
+        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : [1024, 1024]"
+      end
+      if android? && image.dimensions != [512, 512]
+        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : [512, 512]"
+      end
+    end
+
+    def android?
+      Motion::Project::App.template == :android
+    end
+
+    def ios?
+      Motion::Project::App.template == :ios
     end
   end
 end
