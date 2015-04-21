@@ -54,12 +54,12 @@ module Motion::Project
     }
 
     ANDROID_ICONS = %w{
-      drawable-xxxhdpi/icon.png|192x192x 
-      drawable-xxhdpi/icon.png|144x144x 
-      drawable-xhdpi/icon.png|96x96x 
-      drawable-hdpi/icon.png|72x72x 
-      drawable-mdpi/icon.png|48x48x 
-      drawable-ldpi/icon.png|36x36x 
+      drawable-xxxhdpi/icon.png|192x192
+      drawable-xxhdpi/icon.png|144x144
+      drawable-xhdpi/icon.png|96x96
+      drawable-hdpi/icon.png|72x72
+      drawable-mdpi/icon.png|48x48
+      drawable-ldpi/icon.png|36x36
     }
 
     ANDROID_SPLASHES = %w{
