@@ -144,7 +144,7 @@ module Motion::Project
         parts = splash.split('|')
         path = File.join(@output_dir, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
-        generate_image(@source_splash, path, parts[1])
+        crop_image(@source_splash, path, parts[1])
         @images << path
         App.info "-", parts[0]
       end
@@ -155,7 +155,7 @@ module Motion::Project
       @icons.each do |icon|
         path = File.join(@output_dir, icon.name)
         FileUtils.mkdir_p(File.dirname(path))
-        generate_image(@source_icon, path, icon.dimensions)
+        resize_image(@source_icon, path, icon.dimensions)
         @images << path
         App.info "-", icon.name
       end
@@ -170,11 +170,21 @@ module Motion::Project
       end
     end
 
-    def generate_image(source, path, dimensions)
+    def resize_image(source, path, dimensions)
       image = MiniMagick::Image.open(source)
       image.resize(dimensions)
       image.format("png")
       image.write(path)
+    end
+
+    def crop_image(source, path, dimensions)
+      image = MiniMagick::Image.open(source)
+      result = image.combine_options do |cmd|
+        cmd.gravity(:center)
+        cmd.crop("#{dimensions}!+0+0")
+      end
+      result.format("png")
+      result.write(path)
     end
 
     def validate_source_icon
