@@ -66,7 +66,7 @@ module Motion::Project
       drawable-hdpi/splash-port.png|480x800
       drawable-ldpi/splash-port.png|200x320
       drawable-mdpi/splash-port.png|320x480
-      drawable-xhdpi/splash-port.png|720px1280
+      drawable-xhdpi/splash-port.png|720x1280
       drawable-xxhdpi/splash-port.png|960x1600
       drawable-xxxhdpi/splash-port.png|1280x1920
     }
