@@ -38,6 +38,9 @@ Motion::Project::App.setup do |app|
   # ...
   app.assets.source_icon = "./src_images/icon-1024x1024.png"
   app.assets.source_splash = "./src_images/splash-1024x1024.png"
+  
+  # optional
+  app.assets.output_dir = "./some/directory"
 end
 ```
 

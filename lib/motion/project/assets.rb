@@ -83,6 +83,7 @@ module Motion::Project
       end
       @source_icon = "./src_images/icon.png"
       @source_splash = "./src_images/splash.png"
+      @output_dir = @config.resources_dirs.first
     end
 
     def source_icon=(source_icon)
@@ -91,6 +92,10 @@ module Motion::Project
 
     def source_splash=(source_splash)
       @source_splash = source_splash
+    end
+
+    def output_dir=(output_dir)
+      @output_dir = output_dir
     end
 
     def icons
@@ -104,6 +109,7 @@ module Motion::Project
     def generate!
       validate_source_icon!
       validate_source_splash!
+      validate_output_dir
       generate_icons
       generate_splashes
       optimize_images
@@ -111,11 +117,17 @@ module Motion::Project
 
     protected
 
+    def validate_output_dir
+      unless File.exist?(@output_dir)
+        App.fail "[error]", "Output directory : #{@output_dir} doesn't exist, please create it."
+      end
+    end
+
     def generate_splashes
       App.info "[info]", "Generating splashes..."
       @splashes.each do |splash|
         parts = splash.split('|')
-        path = File.join(@config.resources_dirs.first, parts[0])
+        path = File.join(@output_dir, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         generate_image(@source_splash, path, parts[1])
         @images << path
@@ -127,7 +139,7 @@ module Motion::Project
       App.info "[info]", "Generating icons..."
       @icons.each do |icon|
         parts = icon.split('|')
-        path = File.join(@config.resources_dirs.first, parts[0])
+        path = File.join(@output_dir, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         generate_image(@source_icon, path, parts[1])
         @images << path
