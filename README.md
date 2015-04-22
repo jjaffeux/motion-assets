@@ -53,6 +53,8 @@ Motion::Project::App.setup do |app|
 end
 ```
 
+Note : motion-assets will autopopulate your `app.icons` array with the list of created icons.
+
 ## Tasks
 
 To tell motion-assets to generate the assets :
