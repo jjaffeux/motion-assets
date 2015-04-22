@@ -109,6 +109,14 @@ module Motion::Project
       @icons
     end
 
+    def icons=(icons)
+      @icons = Icons.new(@config, platform)
+      if ios?
+        @config.icons = []
+        @icons << icons
+      end
+    end
+
     def splashes
       @splashes
     end
