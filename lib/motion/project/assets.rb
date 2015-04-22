@@ -70,7 +70,7 @@ module Motion::Project
     def initialize(config)
       @config = config
       @images = []
-      @icons = Icons.new(config)
+      @icons = Icons.new(config, platform)
       @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
       if ios?
@@ -175,11 +175,15 @@ module Motion::Project
     end
 
     def android?
-      Motion::Project::App.template == :android
+      platform == :android
     end
 
     def ios?
-      Motion::Project::App.template == :ios
+      platform == :ios
+    end
+
+    def platform
+      Motion::Project::App.template
     end
   end
 end
