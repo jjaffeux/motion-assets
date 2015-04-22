@@ -153,12 +153,11 @@ module Motion::Project
     def generate_icons
       App.info "[info]", "Generating icons..."
       @icons.each do |icon|
-        parts = icon.split('|')
-        path = File.join(@output_dir, parts[0])
+        path = File.join(@output_dir, icon.name)
         FileUtils.mkdir_p(File.dirname(path))
-        generate_image(@source_icon, path, parts[1])
+        generate_image(@source_icon, path, icon.dimensions)
         @images << path
-        App.info "-", parts[0]
+        App.info "-", icon.name
       end
     end
 
