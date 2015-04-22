@@ -122,8 +122,8 @@ module Motion::Project
     end
 
     def generate!
-      validate_source_icon!
-      validate_source_splash!
+      validate_source_icon
+      validate_source_splash
       validate_output_dir
       generate_icons
       generate_splashes
@@ -178,7 +178,7 @@ module Motion::Project
       image.write(path)
     end
 
-    def validate_source_icon!
+    def validate_source_icon
       unless File.exist?(@source_icon)
         App.fail "You have to provide a valid base icon in your rakefile : app.assets.source_icon = './some/path/image.png"
       end
@@ -191,7 +191,7 @@ module Motion::Project
       end
     end
 
-    def validate_source_splash!
+    def validate_source_splash
       unless File.exist?(@source_splash)
         App.fail "You have to provide a valid base splash in your rakefile : app.assets.source_splash = './some/path/image.png"
       end
