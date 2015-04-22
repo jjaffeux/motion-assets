@@ -77,10 +77,12 @@ module Motion::Project
         @icons << IOS_ICONS
         @splashes = IOS_SPLASHES
       end
+
       if android?
         @icons << ANDROID_ICONS
         @splashes = ANDROID_SPLASHES
       end
+
       @source_icon = "./src_images/icon.png"
       @source_splash = "./src_images/splash.png"
       @output_dir = @config.resources_dirs.first
