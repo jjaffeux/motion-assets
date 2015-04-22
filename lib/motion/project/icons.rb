@@ -19,7 +19,7 @@ class Icons
     @list << icons
     @list.flatten!
 
-    if platform == :ios
+    if @platform == :ios
       icons.flatten.each do |icon|
         @config.icons << icon.split('|').first
       end
@@ -33,7 +33,7 @@ class Icons
     @list.delete(icons)
     @list.flatten!
 
-    if platform == :ios
+    if @platform == :ios
       icons.flatten.each do |icon|
         @config.icons.delete icon.split('|').first
       end

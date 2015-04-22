@@ -119,7 +119,7 @@ module Motion::Project
 
     def validate_output_dir
       unless File.exist?(@output_dir)
-        App.fail "[error]", "Output directory : #{@output_dir} doesn't exist, please create it."
+        App.fail "Output directory : #{@output_dir} doesn't exist, please create it."
       end
     end
 
