@@ -11,17 +11,6 @@ class Icons
     @list
   end
 
-  # def =(*icons)
-  #   @list = icons
-  #   @list.flatten!
-
-  #   if @platform == :ios
-  #     @config.icons = icons.flatten.map {|icon| icon.split('|').first}
-  #   end
-
-  #   self
-  # end
-
   def <<(*icons)
     @list << icons
     @list.flatten!
