@@ -83,6 +83,7 @@ module Motion::Project
       end
 
       if android?
+        config.icon = 'icon.png'
         @icons << ANDROID_ICONS
         @splashes = ANDROID_SPLASHES
       end

@@ -5,10 +5,6 @@ class Icons
     @list = []
     @config = config
     @platform = platform
-
-    if platform == :android
-      @config.icon = 'icon.png'
-    end
   end
 
   def list
