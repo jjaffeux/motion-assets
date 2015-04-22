@@ -3,7 +3,7 @@
 
 # motion-assets
 
-motion-assets allows RubyMotion projects to use ImageMagick to generate all the icons sizes.
+motion-assets allows RubyMotion projects to use ImageMagick to generate all the icons and splash screens sizes.
 
 
 ## Installation
