@@ -74,7 +74,7 @@ module Motion::Project
     def initialize(config)
       @config = config
       @images = []
-      @icons = Icons.new(config, platform)
+      @icons = Icons.new(@config, platform)
       @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
       if ios?
@@ -83,7 +83,7 @@ module Motion::Project
       end
 
       if android?
-        config.icon = 'icon.png'
+        @config.icon = 'icon.png'
         @icons << ANDROID_ICONS
         @splashes = ANDROID_SPLASHES
       end
