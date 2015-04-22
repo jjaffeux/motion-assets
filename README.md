@@ -62,4 +62,4 @@ $ [bundle exec] rake assets:generate
 ```
 
 
-note : the sample icon comes from the greal Pixelmator tool, http://www.pixelmator.com/
+note : the sample icon comes from the great Pixelmator tool, http://www.pixelmator.com/
