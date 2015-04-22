@@ -14,6 +14,10 @@ module Motion::Project
   end
 
   class Assets
+    BASE_SPLASH_SIZE = [2028, 2028]
+    BASE_IOS_ICON_SIZE = [1024, 1024]
+    BASE_ANDROID_ICON_SIZE = [512, 512]
+
     IOS_ICONS = %w{
       Icon-Small.png|29x29
       Icon-Small@2x.png|58x58
@@ -170,11 +174,11 @@ module Motion::Project
         App.fail "You have to provide a valid base icon in your rakefile : app.assets.source_icon = './some/path/image.png"
       end
       image = MiniMagick::Image.open(@source_icon)
-      if ios? && image.dimensions != [1024, 1024]
-        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : [1024, 1024]"
+      if ios? && image.dimensions != BASE_IOS_ICON_SIZE
+        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : #{BASE_IOS_ICON_SIZE}"
       end
-      if android? && image.dimensions != [512, 512]
-        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : [512, 512]"
+      if android? && image.dimensions != BASE_ANDROID_ICON_SIZE
+        App.info "[warning]", "Your source icon image dimensions #{image.dimensions} is different from recommended dimensions : #{BASE_ANDROID_ICON_SIZE}"
       end
     end
 
@@ -183,8 +187,8 @@ module Motion::Project
         App.fail "You have to provide a valid base splash in your rakefile : app.assets.source_splash = './some/path/image.png"
       end
       image = MiniMagick::Image.open(@source_splash)
-      if image.dimensions != [2028, 2028]
-        App.info "[warning]", "Your source splash image dimensions #{image.dimensions} is different from recommended dimensions : [2028, 2028]"
+      if image.dimensions != BASE_SPLASH_SIZE
+        App.info "[warning]", "Your source splash image dimensions #{image.dimensions} is different from recommended dimensions : #{BASE_SPLASH_SIZE}"
       end
     end
 
