@@ -73,7 +73,7 @@ module Motion::Project
 
     def initialize(config)
       @config = config
-      @images = []
+      @assets = []
       @icons = Icons.new(@config, platform)
       @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
@@ -127,7 +127,7 @@ module Motion::Project
       validate_output_dir
       generate_icons
       generate_splashes
-      optimize_images
+      optimize_assets
     end
 
     protected
@@ -145,7 +145,7 @@ module Motion::Project
         path = File.join(@output_dir, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         crop_image(@source_splash, path, parts[1])
-        @images << path
+        @assets << path
         App.info "-", parts[0]
       end
     end
@@ -156,17 +156,17 @@ module Motion::Project
         path = File.join(@output_dir, icon.name)
         FileUtils.mkdir_p(File.dirname(path))
         resize_image(@source_icon, path, icon.dimensions)
-        @images << path
+        @assets << path
         App.info "-", icon.name
       end
     end
 
-    def optimize_images
+    def optimize_assets
       if File.exist?(@image_optim)
-        App.info "[info]", "Optimizing images..."
-        system("#{@image_optim} #{@images.join(' ')}")
+        App.info "[info]", "Optimizing assets..."
+        system("#{@image_optim} #{@assets.join(' ')}")
       else
-        App.info "[warning]", "motion-assets uses ImageOptim to optimize your images, please install it : https://imageoptim.com"
+        App.info "[warning]", "motion-assets uses ImageOptim to optimize your assets, please install it : https://imageoptim.com"
       end
     end
 
