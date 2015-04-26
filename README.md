@@ -50,7 +50,7 @@ Motion::Project::App.setup do |app|
   app.assets.icons.delete('Icon-60@2x.png|120x120')
 
   # Disable optimization
-  app.assets.optimize_assets = false
+  app.assets.optimize = false
 end
 ```
 

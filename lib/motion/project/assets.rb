@@ -42,7 +42,7 @@ module Motion::Project
       Default-Landscape~ipad.png|1024x768
       Default-Landscape@2x~ipad.png|2048x1536
       Default-568h@2x~iphone.png|640x1136
-      Default-667h.png|750x1334
+      Default-667h.png|375x667
       Default-736h.png|1242x2208
       Default-Landscape-736h.png|2208x1242
     }
@@ -73,7 +73,7 @@ module Motion::Project
 
     def initialize(config)
       @config = config
-      @optimize_assets = true
+      @optimize = true
       @assets = []
       @source_images = []
       @icons = Icons.new(@config, platform)
@@ -110,8 +110,8 @@ module Motion::Project
       @source_images
     end
 
-    def optimize_assets
-      @optimize_assets
+    def optimize=(optimize)
+      @optimize = optimize
     end
 
     def icons
@@ -137,7 +137,7 @@ module Motion::Project
       generate_icons
       generate_splashes
       generate_images
-      optimize_assets
+      optimize
     end
 
     protected
@@ -198,8 +198,8 @@ module Motion::Project
       end
     end
 
-    def optimize_assets
-      return unless @optimize_assets
+    def optimize
+      return unless @optimize
       App.info "[info]", "Optimizing assets..."
       assets = @assets.join(' ')
       pngquant = "./vendor/pngquant -f --ext .png --speed=2 --skip-if-larger #{assets}"
