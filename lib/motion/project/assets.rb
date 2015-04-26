@@ -132,6 +132,7 @@ module Motion::Project
     end
 
     def generate!
+
       validate_output_dir
 
       if @source_icon
@@ -213,9 +214,9 @@ module Motion::Project
       return unless @optimize
       App.info "[info]", "Optimizing assets..."
       assets = @assets.join(' ')
-      pngquant = "./vendor/pngquant -f --ext .png --speed=2 --skip-if-larger #{assets}"
+      pngquant = "#{root}/vendor/pngquant -f --ext .png --speed=2 --skip-if-larger #{assets}"
       `#{pngquant}`
-      optipng = "./vendor/optipng -clobber -quiet #{assets}"
+      optipng = "#{root}/vendor/optipng -clobber -quiet #{assets}"
       `#{optipng}`
     end
 
@@ -269,6 +270,10 @@ module Motion::Project
 
     def platform
       Motion::Project::App.template
+    end
+
+    def root
+      File.expand_path '../../..', File.dirname(__FILE__)
     end
   end
 end

@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.email       = 'j.jaffeux@gmail.com'
   spec.homepage    = 'http://www.rubymotion.com'
   spec.license     = 'MIT'
-  spec.files       = Dir.glob('lib/**/*.rb') << 'README.md' << 'LICENSE' << 'vendor/pngquant'
+
+  spec.files       = (Dir.glob('lib/**/*.rb') << 'README.md' << 'LICENSE').concat Dir.glob('vendor/**/*')
   spec.add_dependency('mini_magick')
 end

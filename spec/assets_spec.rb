@@ -35,6 +35,8 @@ describe "motion-assets" do
     ['icon-small.png|29x29'] + 
     ['WeirdIcon.png|25x25']
 
+    p @config.assets.root
+
     ios_icons.each do |ios_icon|
       parts = ios_icon.split('|')
       name = parts[0]
