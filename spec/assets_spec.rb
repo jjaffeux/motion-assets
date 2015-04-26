@@ -20,7 +20,6 @@ describe "motion-assets" do
       @config.project_dir = temporary_directory.to_s
       @config.instance_eval do
         assets.source_icon = "./src_images/icon-1024.png"
-        assets.source_splash = "./src_images/splash-2028.png"
         assets.icons.push "WeirdIcon.png|25x25"
         assets.icons.delete "iTunesArtwork@2x.png"
         assets.optimize = false
