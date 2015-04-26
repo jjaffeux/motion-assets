@@ -26,9 +26,6 @@ Or if you use Bundler:
 gem 'motion-assets'
 ```
 
-Optional, you can install ImageOption to optimize your images : https://imageoptim.com
-
-
 ## Setup
 
 In the `Rakefile`, set paths for your base images :
@@ -46,13 +43,14 @@ end
 
 ## Configuration
 
-You can add or remove icons :
-
 ```ruby
 Motion::Project::App.setup do |app|
-  # ...
+  # Add or remove icons
   app.assets.icons << 'CustomSize.png|32x32'
   app.assets.icons.delete('Icon-60@2x.png|120x120')
+
+  # Disable optimization
+  app.assets.optimize_assets = false
 end
 ```
 

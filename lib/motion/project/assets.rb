@@ -73,10 +73,10 @@ module Motion::Project
 
     def initialize(config)
       @config = config
+      @optimize_assets = true
       @assets = []
       @source_images = []
       @icons = Icons.new(@config, platform)
-      @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
       if ios?
         @icons << IOS_ICONS
@@ -110,6 +110,10 @@ module Motion::Project
       @source_images
     end
 
+    def optimize_assets
+      @optimize_assets
+    end
+
     def icons
       @icons
     end
@@ -127,14 +131,12 @@ module Motion::Project
     end
 
     def generate!
-      # validate_source_icon
-      # validate_source_splash
-      # validate_output_dir
-      # generate_icons
-      # generate_splashes
-
+      validate_source_icon
+      validate_source_splash
+      validate_output_dir
+      generate_icons
+      generate_splashes
       generate_images
-
       optimize_assets
     end
 
@@ -197,12 +199,13 @@ module Motion::Project
     end
 
     def optimize_assets
-      if File.exist?(@image_optim)
-        App.info "[info]", "Optimizing assets..."
-        system("#{@image_optim} #{@assets.join(' ')}")
-      else
-        App.info "[warning]", "motion-assets uses ImageOptim to optimize your assets, please install it : https://imageoptim.com"
-      end
+      return unless @optimize_assets
+      App.info "[info]", "Optimizing assets..."
+      assets = @assets.join(' ')
+      pngquant = "./vendor/pngquant -f --ext .png --speed=2 --skip-if-larger #{assets}"
+      `#{pngquant}`
+      optipng = "./vendor/optipng -clobber -quiet #{assets}"
+      `#{optipng}`
     end
 
     def resize_image(source, path, dimensions)
