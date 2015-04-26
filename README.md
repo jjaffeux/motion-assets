@@ -3,7 +3,7 @@
 
 # motion-assets
 
-motion-assets allows RubyMotion projects to use ImageMagick to generate all the icons sizes.
+motion-assets allows RubyMotion projects to use ImageMagick to generate all the icons and splash screens sizes.
 
 
 ## Installation
@@ -34,7 +34,7 @@ In the `Rakefile`, set paths for your base images :
 Motion::Project::App.setup do |app|
   # ...
   app.assets.source_icon = "./src_images/icon-1024x1024.png"
-  app.assets.source_splash = "./src_images/splash-1024x1024.png"
+  app.assets.source_splash = "./src_images/splash-2028x2028.png"
   
   # optional
   app.assets.output_dir = "./some/directory"
