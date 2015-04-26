@@ -21,7 +21,7 @@ describe "motion-assets" do
       @config.instance_eval do
         assets.source_icon = "./src_images/icon-1024.png"
         assets.icons.push "WeirdIcon.png|25x25"
-        assets.icons.delete "iTunesArtwork@2x.png"
+        assets.icons.delete "icon-small.png"
         assets.optimize = false
         assets.output_dir = project_dir
       end
@@ -32,7 +32,7 @@ describe "motion-assets" do
 
   it "should create images with expected dimensions" do
     ios_icons = Motion::Project::Assets::IOS_ICONS - 
-    ['iTunesArtwork@2x.png|1024x1024'] + 
+    ['icon-small.png|29x29'] + 
     ['WeirdIcon.png|25x25']
 
     ios_icons.each do |ios_icon|

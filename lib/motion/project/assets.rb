@@ -34,7 +34,7 @@ module Motion::Project
       icon-76@2x.png|152x152
       icon-small.png|29x29
       icon-small@2x.png|58x58
-      icon-small@3x.png|87x8
+      icon-small@3x.png|87x87
     }
 
     IOS_SPLASHES = %w{
