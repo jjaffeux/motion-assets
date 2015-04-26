@@ -89,8 +89,6 @@ module Motion::Project
         @splashes = ANDROID_SPLASHES
       end
 
-      @source_icon = "./src_images/icon.png"
-      @source_splash = "./src_images/splash.png"
       @output_dir = @config.resources_dirs.first
     end
 
@@ -131,12 +129,22 @@ module Motion::Project
     end
 
     def generate!
-      validate_source_icon
-      validate_source_splash
       validate_output_dir
-      generate_icons
-      generate_splashes
-      generate_images
+
+      if @source_icon
+        validate_source_icon
+        generate_icons
+      end
+
+      if @source_splash
+        validate_source_splash
+        generate_splashes
+      end
+
+      if !@source_images.empty?
+        generate_images
+      end
+
       optimize
     end
 
