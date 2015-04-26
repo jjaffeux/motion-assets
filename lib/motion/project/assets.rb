@@ -74,6 +74,7 @@ module Motion::Project
     def initialize(config)
       @config = config
       @assets = []
+      @source_images = []
       @icons = Icons.new(@config, platform)
       @image_optim = '/Applications/ImageOptim.app/Contents/MacOS/ImageOptim'
       
@@ -105,6 +106,10 @@ module Motion::Project
       @output_dir = output_dir
     end
 
+    def source_images
+      @source_images
+    end
+
     def icons
       @icons
     end
@@ -122,11 +127,14 @@ module Motion::Project
     end
 
     def generate!
-      validate_source_icon
-      validate_source_splash
-      validate_output_dir
-      generate_icons
-      generate_splashes
+      # validate_source_icon
+      # validate_source_splash
+      # validate_output_dir
+      # generate_icons
+      # generate_splashes
+
+      generate_images
+
       optimize_assets
     end
 
@@ -135,6 +143,33 @@ module Motion::Project
     def validate_output_dir
       unless File.exist?(@output_dir)
         App.fail "Output directory : #{@output_dir} doesn't exist, please create it."
+      end
+    end
+
+    def generate_images
+      App.info "[info]", "Generating images..."
+      @source_images.flatten.each do |source_image|
+        extension = File.extname(source_image)
+        filename = File.basename(source_image, extension)
+        base_dimensions = MiniMagick::Image.open(source_image).dimensions
+        ["2x", "3x"].each do |scale|
+          if scale == "2x"
+            resized_dimensions = base_dimensions.collect{|n| n / 2}
+            dimensions =  "#{resized_dimensions[0]}x#{resized_dimensions[1]}"
+          end
+          dimensions = "#{base_dimensions[0]}x#{base_dimensions[1]}" if scale == "3x"
+
+          destination = "#{filename}@#{scale}.png"
+          path = File.join(@output_dir, 'motion-assets', destination)
+          FileUtils.mkdir_p(File.dirname(path))
+          image = MiniMagick::Image.open(source_image)
+          image.resize(dimensions)
+          image.format("png")
+          image.write(path)
+
+          @assets << path
+          App.info "-", destination
+        end
       end
     end
 
