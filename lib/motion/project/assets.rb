@@ -18,60 +18,77 @@ module Motion::Project
     BASE_IOS_ICON_SIZE = [1024, 1024]
     BASE_ANDROID_ICON_SIZE = [512, 512]
 
+    IOS_SCALES = [
+      {name: '@1x', ratio: 1.0, density: 160},
+      {name: '@2x', ratio: 2.0, density: 320},
+      {name: '@3x', ratio: 3.0, density: 480}
+    ]
+
     IOS_ICONS = %w{
       icon.png|57x57
       icon@2x.png|114x114
       icon-40.png|40x40
       icon-40@2x.png|80x80
-      icon-50.png|50x50
-      icon-50@2x.png|100x100
-      icon-60.png|60x60
-      icon-60@2x.png|120x120
-      icon-60@3x.png|180x180
+      icon-40@3x.png|120x120
       icon-72.png|72x72
       icon-72@2x.png|144x144
       icon-76.png|76x76
       icon-76@2x.png|152x152
+      icon-60@2x.png|120x120
+      icon-60@3x.png|180x180
       icon-small.png|29x29
       icon-small@2x.png|58x58
       icon-small@3x.png|87x87
     }
 
-    IOS_SPLASHES = %w{
-      Default-568h@2x~iphone.png|640x1136
-      Default-667h.png|750x1334
-      Default-736h.png|1242x2208
-      Default-Landscape-736h.png|2208x1242
-      Default-Landscape@2x~ipad.png|2048x1536
-      Default-Landscape~ipad.png|1024x768
-      Default-Portrait@2x~ipad.png|1536x2048
-      Default-Portrait~ipad.png|768x1024
-      Default@2x~iphone.png|640x960
-      Default~iphone.png|320x48
+    IOS_SPLASH_SCREENS = {
+      :landscape => %w{
+        Default-Landscape-736h.png|2208x1242
+        Default-Landscape@2x~ipad.png|2048x1536
+        Default-Landscape~ipad.png|1024x768
+      },
+      :portrait => %w{
+        Default-568h@2x~iphone.png|640x1136
+        Default-667h.png|750x1334
+        Default-736h.png|1242x2208
+        Default-Portrait@2x~ipad.png|1536x2048
+        Default-Portrait~ipad.png|768x1024
+        Default@2x~iphone.png|640x960
+        Default~iphone.png|320x480
+      }
     }
 
-    ANDROID_ICONS = %w{
-      drawable-xxxhdpi/icon.png|192x192
-      drawable-xxhdpi/icon.png|144x144
-      drawable-xhdpi/icon.png|96x96
-      drawable-hdpi/icon.png|72x72
-      drawable-mdpi/icon.png|48x48
-      drawable-ldpi/icon.png|36x36
-    }
+    ANDROID_SCALES = [
+      {name: 'ldpi', ratio: 0.75, density: 120},
+      {name: 'mdpi', ratio: 1.0, density: 160},
+      {name: 'hdpi', ratio: 1.5, density: 240},
+      {name: 'xhdpi', ratio: 2.0, density: 320},
+      {name: 'xxhdpi', ratio: 3.0, density: 480},
+      {name: 'xxxhdpi', ratio: 4.0, density: 640}
+    ]
 
-    ANDROID_SPLASHES = %w{
-      drawable-hdpi/splash-land.png|800x480
-      drawable-ldpi/splash-land.png|320x200
-      drawable-mdpi/splash-land.png|480x320
-      drawable-xhdpi/splash-land.png|1280x720
-      drawable-xxhdpi/splash-land.png|1600x960
-      drawable-xxxhdpi/splash-land.png|1920x1280
-      drawable-hdpi/splash-port.png|480x800
-      drawable-ldpi/splash-port.png|200x320
-      drawable-mdpi/splash-port.png|320x480
-      drawable-xhdpi/splash-port.png|720x1280
-      drawable-xxhdpi/splash-port.png|960x1600
-      drawable-xxxhdpi/splash-port.png|1280x1920
+    ANDROID_ICONS = ANDROID_SCALES.map do |scale|
+      edge = (48 * scale[:ratio]).to_i
+      "drawable-#{scale[:name]}/icon.png|#{edge}x#{edge}"
+    end
+
+    ANDROID_SPLASH_SCREENS = {
+      :landscape => %w{
+        drawable-ldpi/splash-land.png|320x200
+        drawable-mdpi/splash-land.png|480x320
+        drawable-hdpi/splash-land.png|800x480
+        drawable-xhdpi/splash-land.png|1280x720
+        drawable-xxhdpi/splash-land.png|1600x960
+        drawable-xxxhdpi/splash-land.png|1920x1280
+      },
+      :portrait => %w{
+        drawable-ldpi/splash-port.png|200x320
+        drawable-mdpi/splash-port.png|320x480
+        drawable-hdpi/splash-port.png|480x800
+        drawable-xhdpi/splash-port.png|720x1280
+        drawable-xxhdpi/splash-port.png|960x1600
+        drawable-xxxhdpi/splash-port.png|1280x1920
+      }
     }
 
     def initialize(config)
@@ -83,13 +100,13 @@ module Motion::Project
       
       if ios?
         @icons << IOS_ICONS
-        @splashes = IOS_SPLASHES
+        @splash_screens = IOS_SPLASH_SCREENS
       end
 
       if android?
         @config.icon = 'icon.png'
         @icons << ANDROID_ICONS
-        @splashes = ANDROID_SPLASHES
+        @splash_screens = ANDROID_SPLASH_SCREENS
       end
 
       @output_dir = @config.resources_dirs.first
@@ -127,29 +144,30 @@ module Motion::Project
       @icons << icons
     end
 
-    def splashes
-      @splashes
+    def splash_screens
+      @splash_screens
     end
 
     def generate!
 
-      validate_output_dir
+      p @config.interface_orientations
+    #   validate_output_dir
 
-      if @source_icon
-        validate_source_icon
-        generate_icons
-      end
+    #   if @source_icon
+    #     validate_source_icon
+    #     generate_icons
+    #   end
 
       if @source_splash
         validate_source_splash
-        generate_splashes
+        generate_splash_screens
       end
 
-      if !@source_images.empty?
-        generate_images
-      end
+    #   if !@source_images.empty?
+    #     generate_images
+    #   end
 
-      optimize
+    #   optimize
     end
 
     protected
@@ -163,34 +181,64 @@ module Motion::Project
     def generate_images
       App.info "[info]", "Generating images..."
       @source_images.flatten.each do |source_image|
+
+        crop = false
+        if source_image.include?('|')
+          crop = true
+          operation_dimensions = source_image.split('|')[1].split('x').map(&:to_f)
+        end
+
         extension = File.extname(source_image)
         filename = File.basename(source_image, extension)
         base_dimensions = MiniMagick::Image.open(source_image).dimensions
         ["2x", "3x"].each do |scale|
           if scale == "2x"
-            resized_dimensions = base_dimensions.collect{|n| n / 2}
+            resized_dimensions = base_dimensions.collect{|n| (n * 2/3).ceil}
             dimensions =  "#{resized_dimensions[0]}x#{resized_dimensions[1]}"
           end
           dimensions = "#{base_dimensions[0]}x#{base_dimensions[1]}" if scale == "3x"
-
-          destination = "#{filename}@#{scale}.png"
+          destination = "#{filename.split('|')[0]}@#{scale}.png"
           path = File.join(@output_dir, 'motion-assets', destination)
           FileUtils.mkdir_p(File.dirname(path))
           image = MiniMagick::Image.open(source_image)
           image.resize(dimensions)
+
+          if crop
+            crop_dimensions = operation_dimensions 
+            if scale == "2x"
+              crop_dimensions = operation_dimensions.collect{|n| n * 2}
+            end
+
+            if scale == "3x"
+              crop_dimensions = operation_dimensions.collect{|n| n * 3}
+            end
+
+            image = image.combine_options do |cmd|
+              cmd.background(:none)
+              cmd.gravity(:center)
+              cmd.extent("#{crop_dimensions[0].to_i}x#{crop_dimensions[1].to_i}")
+            end
+          end
+
           image.format("png")
           image.write(path)
-
+          
           @assets << path
           App.info "-", destination
         end
       end
     end
 
-    def generate_splashes
-      App.info "[info]", "Generating splashes..."
-      @splashes.each do |splash|
-        parts = splash.split('|')
+    def generate_splash_screens
+      App.info "[info]", "Generating splash screens..."
+      splash_screens_sizes = @config.interface_orientations.map do |orientation|
+        IOS_SPLASH_SCREENS.fetch(orientation, nil)
+      end.compact.flatten
+
+      p splash_screens_sizes
+      splash_screens_sizes.each do |splash_screen|
+        p splash_screen
+        parts = splash_screen.split('|')
         path = File.join(@output_dir, parts[0])
         FileUtils.mkdir_p(File.dirname(path))
         crop_image(@source_splash, path, parts[1])
