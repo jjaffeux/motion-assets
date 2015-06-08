@@ -5,11 +5,11 @@ end; end; end
 
 require 'date'
 $:.unshift File.expand_path('../lib', __FILE__)
-require 'motion/project/version'
+require 'motion/assets/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'motion-assets'
-  spec.version     = Motion::Project::Assets::VERSION
+  spec.version     = MotionAssets::VERSION
   spec.date        = Date.today
   spec.summary     = 'Generate icons from a base image'
   spec.description = "motion-assets leverages the power of ImageMagick to generate all icon sizes for your app."
